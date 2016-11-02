@@ -19,20 +19,25 @@ export default class GithubBrowser extends Component {
         super(props);
         this.state = {
             isLoggedIn: false
-        }
+        };
+        this.onLogin = this.onLogin.bind(this);
     }
 
     render() {
+        //var home = <Login onLogin={this.onLogin}/>;
         var home = <Login onLogin={this.onLogin}/>;
         if (this.state.isLoggedIn) {
             home = <Text> Logged in! </Text>;
         }
-        return <View style={styles.container}>{home}</View>;
+        return (
+            <View style={styles.container}>
+                {home}
+            </View>
+        );
     }
 
 
     onLogin() {
-        console.log('gonna mess');
         this.setState({isLoggedIn: true});
     }
 }
