@@ -10,7 +10,8 @@
     "buffer": "^5.0.0",
     "lodash": "^4.16.6",
     "react": "15.3.2",
-    "react-native": "0.36.0"
+    "react-native": "0.36.0",
+    "react-native-scrollable-tab-view": "^0.6.0"
   },
   "jest": {
     "preset": "jest-react-native"
