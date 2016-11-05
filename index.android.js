@@ -73,6 +73,10 @@ const styles = StyleSheet.create({
         color: '#333333',
         marginBottom: 5,
     },
+    loader: {
+        flex: 1,
+        justifyContent: 'center'
+    }
 });
 
 AppRegistry.registerComponent('GithubBrowser', () => GithubBrowser);

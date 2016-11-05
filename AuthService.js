@@ -8,6 +8,10 @@ const userKey = 'user';
 class AuthService {
 
     getAuthInfo(cb) {
+        //this clears the storage
+        // AsyncStorage.clear(err => {
+        //     console.log(err);
+        // });
         AsyncStorage.multiGet([authKey, userKey], (err, val) => {
             if (err) {
                 return cb(err);
@@ -17,7 +21,10 @@ class AuthService {
                 return cb();
             }
 
-            const zippedObj = _.zipObject(val);
+            const keyArray = [val[0][0], val[1][0]];
+            const valueArray = [val[0][1], val[1][1]];
+
+            const zippedObj = _.zipObject(keyArray, valueArray);
 
             if (!zippedObj[authKey]) {
                 return cb();
