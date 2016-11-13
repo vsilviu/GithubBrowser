@@ -7,9 +7,13 @@ import {
     StyleSheet,
     View,
     ListView,
-    ActivityIndicator
+    ActivityIndicator,
+    Image,
+    TouchableHighlight
 } from 'react-native';
 import AuthService from './AuthService';
+import moment from 'moment';
+import PushPayload from './PushPayload';
 
 export default class FeedComponent extends Component {
 
@@ -45,18 +49,54 @@ export default class FeedComponent extends Component {
         })
     }
 
+    pressRow(rowData) {
+        this.props.navigator.push({
+            title: 'Detail',
+            passProps: {
+                rowData: rowData
+            }
+        });
+    }
+
     //how does the rowData argument get here??
     renderRow(rowData) {
-        console.log(rowData);
         {/*return <Text>{JSON.stringify(rowData, 2)}</Text>;*/
         }
-        return <Text>{rowData.actor != null ? rowData.actor.login : 'Loading...'}</Text>;
+        return (
+            <TouchableHighlight onPress={this.pressRow.bind(this, rowData)}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    padding: 20,
+                    alignItems: 'center',
+                    borderColor: 'blue',
+                    borderBottomWidth: 1,
+                    backgroundColor: '#fff'
+                }}>
+                    <Image source={{uri: rowData.actor.avatar_url}}
+                           style={{height: 36, width: 36, borderRadius: 18}}/>
+                    <View style={{paddingLeft: 20}}>
+                        <Text>{moment(rowData.created_at).fromNow()}</Text>
+                        <Text>
+                            <Text style={{fontWeight: '600'}}>{rowData.actor.login} </Text>
+                            pushed to
+                            <Text>{rowData.payload.ref.replace('refs/heads/', ' ')} </Text>
+                            at
+                            <Text style={{fontWeight: '600'}}> {rowData.repo.name} </Text>
+                        </Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        );
     }
 
     render() {
         if (this.state.loading) {
             return (
-                <View style={{flex: 1, justifyContent: 'center'}}>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center'
+                }}>
                     <ActivityIndicator animating={true} size="large"/>
                 </View>
             )

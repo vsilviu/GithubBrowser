@@ -19,7 +19,9 @@ export default class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false
+            loading: false,
+            username: 'xsylver@yahoo.com',
+            password: '384276home'
         }
     }
 
@@ -47,12 +49,14 @@ export default class LoginComponent extends Component {
                     }}
                     style={styles.input}
                     placeholder="Username..."
+                    defaultValue="xsylver@yahoo.com"
                     underlineColorAndroid="transparent"/>
                 <TextInput
                     onChangeText={(text) => {
                         this.setState({password: text})
                     }}
                     style={styles.input} placeholder="Password..."
+                    defaultValue="384276home"
                     underlineColorAndroid="transparent"
                     secureTextEntry={true}/>
                 <TouchableHighlight style={styles.button} onPress={this.onLoginPress.bind(this)}>
@@ -62,7 +66,7 @@ export default class LoginComponent extends Component {
                  This is the workaround */}
                 {this.state.loading &&
                 <ActivityIndicator
-                    style={styles.loading}
+                    style={styles.loader}
                     size="large"/>
                 }
                 {errorCtrl}
@@ -129,12 +133,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: 'white'
     },
-    loading: {
+    loader: {
         marginTop: 20
     },
     error: {
         color: 'red'
     }
-})
+});
 
 AppRegistry.registerComponent('LoginComponent', () => LoginComponent);

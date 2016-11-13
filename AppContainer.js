@@ -6,18 +6,17 @@ import {
     Text,
     StyleSheet,
     View,
-    TabBar
+    TabBar,
+    Navigator
 } from 'react-native';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import FeedComponent from './FeedComponent';
+import PushPayload from './PushPayload';
 
 export default class AppContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            selectedTab: 'feed'
-        }
     }
 
     render() {
@@ -28,8 +27,28 @@ export default class AppContainer extends Component {
                     initialPage={0}
                     renderTabBar={() => <ScrollableTabBar />}
                 >
-                    <FeedComponent tabLabel='Tab #1 asd'/>
-                    <Text tabLabel='Tab #2 word word'>favorite</Text>
+                    <Navigator
+                        tabLabel='Feed'
+                        style={{flex: 1}}
+                        initialRoute={{title: 'Feed'}}
+                        renderScene={(route, navigator) => {
+                            console.log(route);
+                            switch (route.title) {
+                                case 'Feed':
+                                    return <FeedComponent
+                                        navigator={navigator}
+                                        title={route.title}
+                                        {...route.passProps}/>;
+                                case 'Detail':
+                                    return <PushPayload
+                                        navigator={navigator}
+                                        title={route.title}
+                                        {...route.passProps}
+                                    />;
+                            }
+                        }
+                        }/>
+                    <Text tabLabel='Search'>favorite</Text>
                 </ScrollableTabView>
             </View>
         );
