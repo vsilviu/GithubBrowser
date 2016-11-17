@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import AuthService from './AuthService';
 import moment from 'moment';
-import PushPayload from './PushPayload';
+import constants from './constants';
 
 export default class FeedComponent extends Component {
 
@@ -51,7 +51,7 @@ export default class FeedComponent extends Component {
 
     pressRow(rowData) {
         this.props.navigator.push({
-            title: 'Detail',
+            title: constants.FEED_DETAIL,
             passProps: {
                 rowData: rowData
             }

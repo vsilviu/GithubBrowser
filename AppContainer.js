@@ -12,12 +12,42 @@ import {
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import FeedComponent from './FeedComponent';
 import PushPayload from './PushPayload';
+import SearchComponent from './SearchComponent';
+import SearchResultComponent from './SearchResultComponent';
+import constants from './constants';
 
 export default class AppContainer extends Component {
 
     constructor(props) {
         super(props);
     }
+
+    renderScene(route, navigator) {
+        switch (route.title) {
+            case constants.FEED:
+                return <FeedComponent
+                    navigator={navigator}
+                    title={route.title}
+                    {...route.passProps}/>;
+            case constants.FEED_DETAIL:
+                return <PushPayload
+                    navigator={navigator}
+                    title={route.title}
+                    {...route.passProps}
+                />;
+            case constants.SEARCH:
+                return <SearchComponent
+                    navigator={navigator}
+                    title={route.title}
+                    {...route.passProps}/>;
+            case constants.SEARCH_DETAIL:
+                return <SearchResultComponent
+                    navigator={navigator}
+                    title={route.title}
+                    {...route.passProps}/>;
+        }
+    }
+
 
     render() {
         return (
@@ -30,25 +60,13 @@ export default class AppContainer extends Component {
                     <Navigator
                         tabLabel='Feed'
                         style={{flex: 1}}
-                        initialRoute={{title: 'Feed'}}
-                        renderScene={(route, navigator) => {
-                            console.log(route);
-                            switch (route.title) {
-                                case 'Feed':
-                                    return <FeedComponent
-                                        navigator={navigator}
-                                        title={route.title}
-                                        {...route.passProps}/>;
-                                case 'Detail':
-                                    return <PushPayload
-                                        navigator={navigator}
-                                        title={route.title}
-                                        {...route.passProps}
-                                    />;
-                            }
-                        }
-                        }/>
-                    <Text tabLabel='Search'>favorite</Text>
+                        initialRoute={{title: constants.FEED}}
+                        renderScene={this.renderScene.bind(this)}/>
+                    <Navigator
+                        tabLabel='Search'
+                        style={{flex: 1}}
+                        initialRoute={{title: constants.SEARCH}}
+                        renderScene={this.renderScene.bind(this)}/>
                 </ScrollableTabView>
             </View>
         );
